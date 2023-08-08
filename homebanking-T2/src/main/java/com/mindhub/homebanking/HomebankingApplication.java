@@ -18,18 +18,27 @@ public class HomebankingApplication {
         SpringApplication.run(HomebankingApplication.class, args);
     }
 
-    Client c1 = new Client("Melba", "Morel", "mmorel@email.com");
-    Client c2 = new Client("Dama", "Bocca", "dbocca@email.com");
-
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository) {
         return (args) -> {
+
+            Client c1 = new Client("Melba", "Morel", "mmorel@email.com");
+            Client c2 = new Client("Dama", "Bocca", "dbocca@email.com");
+
             clientRepository.save(c1);
             clientRepository.save(c2);
+
             LocalDate hoy = LocalDate.now();
             LocalDate maniana = hoy.plusDays(1);
-            accountRepository.save(new Account("VIN001", hoy, 5000, c1));
-            accountRepository.save(new Account("VIN002", maniana, 7500, c2));
+
+            Account a1 = new Account("VIN001", hoy, 5000);
+            Account a2 = new Account("VIN002", maniana, 7500);
+
+            a1.setClient(c1);
+            a2.setClient(c2);
+
+            accountRepository.save(a1);
+            accountRepository.save(a2);
 
         };
     }
