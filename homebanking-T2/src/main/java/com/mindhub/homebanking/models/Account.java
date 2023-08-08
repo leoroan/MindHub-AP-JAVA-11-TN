@@ -60,4 +60,7 @@ public class Account {
         this.client = client;
     }
 
+    public long getId() {
+        return id;
+    }
 }

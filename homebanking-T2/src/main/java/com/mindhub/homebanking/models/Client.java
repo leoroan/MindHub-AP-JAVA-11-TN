@@ -56,11 +56,11 @@ public class Client {
         this.email = email;
     }
 
-    public Set<Account> getAccount() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
-    public void addPet(Account account) {
+    public void addAccount(Account account) {
         account.setClient(this);
         accounts.add(account);
     }
