@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MindHub-AP-JAVA-11-TN.iml" filepath="$PROJECT_DIR$/.idea/MindHub-AP-JAVA-11-TN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/homebanking.main.iml" filepath="$PROJECT_DIR$/.idea/modules/homebanking.main.iml" />
     </modules>
   </component>
 </project>
