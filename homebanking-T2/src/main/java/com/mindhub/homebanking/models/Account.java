@@ -1,6 +1,9 @@
 package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -40,6 +43,11 @@ public class Account {
         return balance;
     }
 
+    // @JsonIgnore = genera una recursividad ya que cliente tiene asociadas
+    // varias cuentas
+    // y a su vez cada cuenta tiene asociado al cliente esto hace que
+    // el proceso de transformar los objetos Java a Json nunca termine.
+    @JsonIgnore
     public Client getClient() {
         return client;
     }
@@ -51,6 +59,5 @@ public class Account {
     public void setClient(Client client) {
         this.client = client;
     }
-
 
 }
