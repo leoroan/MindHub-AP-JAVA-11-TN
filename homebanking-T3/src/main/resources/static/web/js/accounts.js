@@ -12,6 +12,7 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
+                    console.log(response);
                 })
                 .catch((error) => {
                     // handle error
@@ -20,7 +21,7 @@ Vue.createApp({
                 })
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString();
+            return new Date(date).toLocaleDateString('en-us');
         },
     },
     mounted() {

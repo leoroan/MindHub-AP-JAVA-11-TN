@@ -39,7 +39,7 @@ public class HomebankingApplication {
             Account a2 = new Account("VIN002", tomorrow, 7500);
 
             c1.addAccount(a1);
-            c1.addAccount(a2);
+            c2.addAccount(a2);
 
             accountRepository.save(a1);
             accountRepository.save(a2);
