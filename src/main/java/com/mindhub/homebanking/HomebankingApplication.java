@@ -26,10 +26,18 @@ public class HomebankingApplication {
         return (args) -> {
             clientRepository.save(c1);
             clientRepository.save(c2);
-            LocalDate hoy = LocalDate.now();
-            LocalDate maniana = hoy.plusDays(1);
-            accountRepository.save(new Account("VIN001", hoy, 5000, c1));
-            accountRepository.save(new Account("VIN002", maniana, 7500, c2));
+            
+            LocalDate today = LocalDate.now();
+            LocalDate tomorrow = today.plusDays(1);
+            
+            Account a1 = new Account("VIN001", today, 5000);
+            Account a2 = new Account("VIN002", tomorrow, 7500);
+
+            c1.addAccount(a1);
+            c1.addAccount(a2);
+            
+            accountRepository.save(a1);
+            accountRepository.save(a2);
 
         };
     }
