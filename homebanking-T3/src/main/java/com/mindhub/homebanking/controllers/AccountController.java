@@ -3,7 +3,6 @@ package com.mindhub.homebanking.controllers;
 import java.util.List;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
-import com.mindhub.homebanking.dtos.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +30,5 @@ public class AccountController {
     public AccountDTO getAccount(@PathVariable Long id) {
         return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
     }
-
 
 }
