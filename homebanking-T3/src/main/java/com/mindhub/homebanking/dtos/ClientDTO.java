@@ -11,7 +11,7 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private String email;
-    Set<Account> accounts;
+    private Set<Account> accounts;
 
     public ClientDTO(Client client) {
 
