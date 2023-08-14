@@ -2,6 +2,8 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -75,15 +77,14 @@ public class Loan {
         this.payments = payments;
     }
 
-    public List<Client> getClientLoans() {
+    @JsonIgnore
+    public List<Client> getClients() {
         return clientLoans.stream()
                 .map(ClientLoan::getClient).collect(toList());
     }
 
-    public void addClientLoan(ClientLoan clientLoan) {
+    public void addClient(ClientLoan clientLoan) {
         clientLoan.setLoan(this);
         clientLoans.add(clientLoan);
     }
 }
-
-

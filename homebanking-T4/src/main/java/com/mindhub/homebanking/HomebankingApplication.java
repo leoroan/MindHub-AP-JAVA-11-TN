@@ -20,10 +20,10 @@ public class HomebankingApplication {
 
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository,
-                                      AccountRepository accountRepository,
-                                      TransactionRepository transactionRepository,
-                                      LoanRepository loanRepository,
-                                      ClientLoanRepository clientLoanRepository) {
+            AccountRepository accountRepository,
+            TransactionRepository transactionRepository,
+            LoanRepository loanRepository,
+            ClientLoanRepository clientLoanRepository) {
 
         return (args) -> {
 
@@ -77,27 +77,25 @@ public class HomebankingApplication {
             loanRepository.save(l3);
 
             ClientLoan cl1 = new ClientLoan(400000, 60, c1, l1);
-            c1.addClientLoan(cl1);
-            l1.addClientLoan(cl1);
+            c1.addLoan(cl1);
+            l1.addClient(cl1);
 
             ClientLoan cl2 = new ClientLoan(50000, 12, c1, l2);
-            c1.addClientLoan(cl2);
-            l2.addClientLoan(cl2);
+            c1.addLoan(cl2);
+            l2.addClient(cl2);
 
             ClientLoan cl3 = new ClientLoan(1009000, 24, c2, l2);
-            c2.addClientLoan(cl3);
-            l2.addClientLoan(cl3);
+            c2.addLoan(cl3);
+            l2.addClient(cl3);
 
             ClientLoan cl4 = new ClientLoan(200000, 36, c2, l3);
-            c2.addClientLoan(cl4);
-            l3.addClientLoan(cl4);
+            c2.addLoan(cl4);
+            l3.addClient(cl4);
 
             clientLoanRepository.save(cl1);
             clientLoanRepository.save(cl2);
             clientLoanRepository.save(cl3);
             clientLoanRepository.save(cl4);
-
-
 
         };
     }

@@ -77,14 +77,19 @@ public class Client {
     }
 
     @JsonIgnore
-    public List<Loan> getClientLoan() {
+    public List<Loan> getLoans() {
         return clientLoans.stream()
                 .map(ClientLoan::getLoan).collect(toList());
     }
 
-    public void addClientLoan(ClientLoan clientLoan) {
+    public void addLoan(ClientLoan clientLoan) {
         clientLoan.setClient(this);
         clientLoans.add(clientLoan);
+    }
+
+    @JsonIgnore
+    public Set<ClientLoan> getClientLoans() {
+        return clientLoans;
     }
 
 }
