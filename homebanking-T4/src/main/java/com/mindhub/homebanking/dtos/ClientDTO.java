@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.ClientLoan;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ClientDTO {
     private long id;
@@ -46,7 +47,7 @@ public class ClientDTO {
 
     public List<ClientLoanDTO> getLoans() {
         return loans.stream()
-                .map(ClientLoanDTO::new).toList();
+                .map(ClientLoanDTO::new).collect(Collectors.toList());
     }
 
 }
