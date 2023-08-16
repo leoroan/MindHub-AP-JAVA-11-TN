@@ -2,10 +2,10 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Card {
@@ -28,7 +28,8 @@ public class Card {
     public Card() {
     }
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, int cvv, LocalDate fromDate, LocalDate thruDate) {
+    public Card(String cardHolder, CardType type, CardColor color, String number, int cvv, LocalDate fromDate,
+            LocalDate thruDate) {
         this.cardHolder = cardHolder;
         this.type = type;
         this.color = color;
@@ -101,4 +102,10 @@ public class Card {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    @JsonIgnore
+    public Client getClient() {
+        return client;
+    }
+
 }

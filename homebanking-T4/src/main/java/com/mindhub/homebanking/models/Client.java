@@ -98,4 +98,9 @@ public class Client {
         card.setClient(this);
         cards.add(card);
     }
+
+    public Set<Card> getCards() {
+        return cards;
+    }
+
 }
