@@ -77,7 +77,7 @@ public class HomebankingApplication {
             loanRepository.save(l3);
 
             ClientLoan cl1 = new ClientLoan(400000, 60, c1, l1);
-            c1.addLoan(cl1);
+            c1.addLoan(cl1); // reparar esto segun lo comentado en ws. faltaria el add en ClientLoan
             l1.addClient(cl1);
 
             ClientLoan cl2 = new ClientLoan(50000, 12, c1, l2);
@@ -96,6 +96,16 @@ public class HomebankingApplication {
             clientLoanRepository.save(cl2);
             clientLoanRepository.save(cl3);
             clientLoanRepository.save(cl4);
+
+            LocalDate from = LocalDate.now();
+            LocalDate thru = today.plusDays(730);
+            Card goldCard = new Card(c1.getFirstName()+" "+c1.getLastName(),CardType.DEBIT, CardColor.GOLD, "1234-5678-1190", 987, from, thru);
+            Card titaniumCard = new Card(c1.getFirstName()+" "+c1.getLastName(),CardType.CREDIT, CardColor.TITANIUM, "1098-7654-3000", 652, from, thru);
+            Card silverCard = new Card(c2.getFirstName()+" "+c2.getLastName(),CardType.CREDIT, CardColor.SILVER, "1122-3344-5566", 258, from, thru);
+
+
+
+
 
         };
     }
