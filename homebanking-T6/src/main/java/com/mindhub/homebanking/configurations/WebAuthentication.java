@@ -27,10 +27,14 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
     ClientRepository clientRepository;
 
     /***
-     * La clase WebAuthentication se extiende de GlobalAuthenticationConfigurerAdapter
-     * para poder sobrescribir su método init. En este método se debe cambiar el servicio
-     * de detalles de usuario por uno nuevo que implemente la búsqueda de los detalles
-     * del usuario utilizando el repositorio de clientes, en otras palabras se indicará
+     * La clase WebAuthentication se extiende de
+     * GlobalAuthenticationConfigurerAdapter
+     * para poder sobrescribir su método init. En este método se debe cambiar el
+     * servicio
+     * de detalles de usuario por uno nuevo que implemente la búsqueda de los
+     * detalles
+     * del usuario utilizando el repositorio de clientes, en otras palabras se
+     * indicará
      * a Spring que para esta aplicación los usuarios son clientes.
      */
     @Override
@@ -39,6 +43,10 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
         auth.userDetailsService(inputMail -> {
             Client client = clientRepository.findByEmail(inputMail);
             if (client != null) {
+                if (client.getFirstName().equals("ADMIN")) {
+                    return new User(client.getEmail(), client.getPassword(),
+                            AuthorityUtils.createAuthorityList("ADMIN"));
+                }
                 return new User(client.getEmail(), client.getPassword(),
                         AuthorityUtils.createAuthorityList("CLIENT"));
             } else {
@@ -46,6 +54,7 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
             }
         });
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

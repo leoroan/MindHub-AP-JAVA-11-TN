@@ -21,7 +21,8 @@ public class HomebankingApplication {
     }
 
     /**
-     * Anota la propiedad (passwordEncoder) con @Autowired para que Spring inyecte el objeto PasswordEncoder
+     * Anota la propiedad (passwordEncoder) con @Autowired para que Spring inyecte
+     * el objeto PasswordEncoder
      * que se crea con el @Bean en la clase WebAuthentication
      */
     @Autowired
@@ -29,15 +30,16 @@ public class HomebankingApplication {
 
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository,
-                                      AccountRepository accountRepository,
-                                      TransactionRepository transactionRepository,
-                                      LoanRepository loanRepository,
-                                      ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
+            AccountRepository accountRepository,
+            TransactionRepository transactionRepository,
+            LoanRepository loanRepository,
+            ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 
         return (args) -> {
 
             Client c1 = new Client("Melba", "Morel", "mmorel@email.com", passwordEncoder.encode("123456"));
             Client c2 = new Client("Dama", "Bocca", "dbocca@email.com", passwordEncoder.encode("654321"));
+            Client admin = new Client("ADMIN", "ADMIN", "admin@admin.com", passwordEncoder.encode("123456"));
 
             clientRepository.save(c1);
             clientRepository.save(c2);
