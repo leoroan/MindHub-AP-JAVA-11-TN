@@ -16,4 +16,9 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 //    repository.save(instance) -- save the instance in the database
 //    repository.saveAll(instances) -- save a list of instances in the database (added in Spring 2)
 
+    // Método "findByEmail" en el repositorio de clientes que retorne un objeto de tipo Client,
+    // con este método luego podré buscar un cliente por su email.
+    public Client findByEmail(String email);
+
+
 }

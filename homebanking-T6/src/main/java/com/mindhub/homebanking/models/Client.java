@@ -11,6 +11,8 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 
 @Entity
+@NamedQuery(name = "Client.findByEmail",
+        query = "select c from Client c where c.email = ?1")
 public class Client {
 
     @Id
@@ -20,6 +22,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Account> accounts = new HashSet<>();
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
@@ -30,11 +33,12 @@ public class Client {
     public Client() {
     }
 
-    public Client(String first, String last, String email) {
+    public Client(String first, String last, String email, String password) {
         this.firstName = first;
         this.lastName = last;
         this.email = email;
         this.clientLoans = new HashSet<>();
+        this.password = password;
     }
 
     public long getId() {
@@ -103,4 +107,11 @@ public class Client {
         return cards;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

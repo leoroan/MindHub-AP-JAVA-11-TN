@@ -2,10 +2,12 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,17 +20,24 @@ public class HomebankingApplication {
         SpringApplication.run(HomebankingApplication.class, args);
     }
 
+    /**
+     * Anota la propiedad (passwordEncoder) con @Autowired para que Spring inyecte el objeto PasswordEncoder
+     * que se crea con el @Bean en la clase WebAuthentication
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository,
-            AccountRepository accountRepository,
-            TransactionRepository transactionRepository,
-            LoanRepository loanRepository,
-            ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
+                                      AccountRepository accountRepository,
+                                      TransactionRepository transactionRepository,
+                                      LoanRepository loanRepository,
+                                      ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 
         return (args) -> {
 
-            Client c1 = new Client("Melba", "Morel", "mmorel@email.com");
-            Client c2 = new Client("Dama", "Bocca", "dbocca@email.com");
+            Client c1 = new Client("Melba", "Morel", "mmorel@email.com", passwordEncoder.encode("123456"));
+            Client c2 = new Client("Dama", "Bocca", "dbocca@email.com", passwordEncoder.encode("654321"));
 
             clientRepository.save(c1);
             clientRepository.save(c2);
