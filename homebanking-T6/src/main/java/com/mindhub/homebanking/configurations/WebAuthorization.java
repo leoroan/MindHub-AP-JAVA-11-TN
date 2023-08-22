@@ -6,10 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -24,7 +22,6 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
  * autorización
  */
 class WebAuthorization {
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,12 +38,12 @@ class WebAuthorization {
          * acceder a /data.
          */
         http.authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/**").permitAll();
+                // .antMatchers(HttpMethod.POST, "/**").permitAll();
                 .antMatchers("/**").permitAll();
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .antMatchers("/rest/**").hasAuthority("ADMIN")
-//                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
-//                .antMatchers("/**").hasAuthority("CLIENT");
+        // .antMatchers("/admin/**").hasAuthority("ADMIN")
+        // .antMatchers("/rest/**").hasAuthority("ADMIN")
+        // .antMatchers("/h2-console/**").hasAuthority("ADMIN")
+        // .antMatchers("/**").hasAuthority("CLIENT");
 
         http.formLogin()
                 .usernameParameter("email")

@@ -43,6 +43,7 @@ public class HomebankingApplication {
 
             clientRepository.save(c1);
             clientRepository.save(c2);
+            clientRepository.save(admin);
 
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
