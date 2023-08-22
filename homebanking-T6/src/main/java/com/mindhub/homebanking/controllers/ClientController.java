@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +56,11 @@ public class ClientController {
         }
         clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping("/clients/current")
+    public ClientDTO getClient(Authentication authentication) {
+        return clientRepository.findByEmail(authentication.getName()).map(ClientDTO::new).orElse(null);
     }
 
 }
