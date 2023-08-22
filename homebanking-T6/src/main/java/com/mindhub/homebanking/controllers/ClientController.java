@@ -1,17 +1,14 @@
 package com.mindhub.homebanking.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Client;
@@ -60,7 +57,11 @@ public class ClientController {
 
     @RequestMapping("/clients/current")
     public ClientDTO getClient(Authentication authentication) {
-        return clientRepository.findByEmail(authentication.getName()).map(ClientDTO::new).orElse(null);
-    }
+        Client cli = clientRepository.findByEmail(authentication.getName());
+        ClientDTO clientdto = new ClientDTO(cli);
+        return clientdto;
 
+    }
 }
+
+

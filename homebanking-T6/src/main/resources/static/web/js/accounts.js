@@ -24,7 +24,7 @@ Vue.createApp({
         },
         signOut: function () {
             axios.post('/api/logout')
-                .then(response => window.location.href = "/web/index.html")
+                .then(response => window.location.href = "/web/index.html", console.log("deslogUEADO!"))
                 .catch(() => {
                     this.errorMsg = "Sign out failed"
                     this.errorToats.show();

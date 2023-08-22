@@ -50,12 +50,15 @@ public class HomebankingApplication {
 
             Account a1 = new Account("VIN001", today, 5000);
             Account a2 = new Account("VIN002", tomorrow, 7500);
+            Account a3 = new Account("VIN003", today, 999);
 
             c1.addAccount(a1);
             c2.addAccount(a2);
+            admin.addAccount(a3);
 
             accountRepository.save(a1);
             accountRepository.save(a2);
+            accountRepository.save(a3);
 
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime then = now.plusHours(1);

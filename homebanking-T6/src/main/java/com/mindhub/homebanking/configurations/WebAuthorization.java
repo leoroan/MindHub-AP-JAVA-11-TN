@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -38,12 +39,15 @@ class WebAuthorization {
          * acceder a /data.
          */
         http.authorizeRequests()
-                // .antMatchers(HttpMethod.POST, "/**").permitAll();
-                .antMatchers("/**").permitAll();
-        // .antMatchers("/admin/**").hasAuthority("ADMIN")
-        // .antMatchers("/rest/**").hasAuthority("ADMIN")
-        // .antMatchers("/h2-console/**").hasAuthority("ADMIN")
-        // .antMatchers("/**").hasAuthority("CLIENT");
+                .antMatchers("/manager.html", "/rest/**").hasAuthority("ADMIN") // be especifico.
+                .antMatchers("/h2-console").hasAnyAuthority("ADMIN")
+//                .antMatchers("/h2-console").hasAnyAuthority("ADMIN", "CLIENT")
+
+                .antMatchers( "/web/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login", "/api/logout").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+
+                .antMatchers("/**").hasAuthority("CLIENT");
 
         http.formLogin()
                 .usernameParameter("email")
