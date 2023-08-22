@@ -11,8 +11,7 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 
 @Entity
-@NamedQuery(name = "Client.findByEmail",
-        query = "select c from Client c where c.email = ?1")
+@NamedQuery(name = "Client.findByEmail", query = "select c from Client c where c.email = ?1")
 public class Client {
 
     @Id

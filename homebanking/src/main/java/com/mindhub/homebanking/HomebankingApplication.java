@@ -21,7 +21,8 @@ public class HomebankingApplication {
     }
 
     /**
-     * Anota la propiedad (passwordEncoder) con @Autowired para que Spring inyecte el objeto PasswordEncoder
+     * Anota la propiedad (passwordEncoder) con @Autowired para que Spring inyecte
+     * el objeto PasswordEncoder
      * que se crea con el @Bean en la clase WebAuthentication
      */
     @Autowired
@@ -29,30 +30,35 @@ public class HomebankingApplication {
 
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository,
-                                      AccountRepository accountRepository,
-                                      TransactionRepository transactionRepository,
-                                      LoanRepository loanRepository,
-                                      ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
+            AccountRepository accountRepository,
+            TransactionRepository transactionRepository,
+            LoanRepository loanRepository,
+            ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 
         return (args) -> {
 
             Client c1 = new Client("Melba", "Morel", "mmorel@email.com", passwordEncoder.encode("123456"));
             Client c2 = new Client("Dama", "Bocca", "dbocca@email.com", passwordEncoder.encode("654321"));
+            Client admin = new Client("ADMIN", "ADMIN", "admin@admin.com", passwordEncoder.encode("123456"));
 
             clientRepository.save(c1);
             clientRepository.save(c2);
+            clientRepository.save(admin);
 
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 
             Account a1 = new Account("VIN001", today, 5000);
             Account a2 = new Account("VIN002", tomorrow, 7500);
+            Account a3 = new Account("VIN003", today, 999);
 
             c1.addAccount(a1);
             c2.addAccount(a2);
+            admin.addAccount(a3);
 
             accountRepository.save(a1);
             accountRepository.save(a2);
+            accountRepository.save(a3);
 
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime then = now.plusHours(1);
