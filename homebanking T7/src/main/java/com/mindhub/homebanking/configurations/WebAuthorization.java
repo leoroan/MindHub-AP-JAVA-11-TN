@@ -39,15 +39,11 @@ class WebAuthorization {
          * acceder a /data.
          */
         http.authorizeRequests()
-                .antMatchers("/manager.html", "/rest/**").hasAuthority("ADMIN") // be especifico.
-                .antMatchers("/h2-console").hasAnyAuthority("ADMIN")
-//                .antMatchers("/h2-console").hasAnyAuthority("ADMIN", "CLIENT")
-
+                .antMatchers("/manager.html", "/rest/**", "/h2-console/**").hasAuthority("ADMIN") // be specific.
+//              .antMatchers("/h2-console").hasAnyAuthority("ADMIN", "CLIENT") // machete pourpose
                 .antMatchers( "/web/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/login", "/api/logout").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
-
-                .antMatchers("/**").hasAuthority("CLIENT");
+                .antMatchers(HttpMethod.POST, "/api/login", "/api/logout", "/api/clients").permitAll()
+                .antMatchers("/**", "/clients/current/accounts").hasAnyAuthority("ADMIN", "CLIENT");
 
         http.formLogin()
                 .usernameParameter("email")

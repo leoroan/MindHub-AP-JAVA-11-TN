@@ -51,16 +51,16 @@ public class ClientController {
         if (clientRepository.findByEmail(email) != null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
+
+        clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping("/clients/current")
     public ClientDTO getClient(Authentication authentication) {
         Client cli = clientRepository.findByEmail(authentication.getName());
-        ClientDTO clientdto = new ClientDTO(cli);
-        return clientdto; 
-
+        return new ClientDTO(cli);
     }
 }
 
