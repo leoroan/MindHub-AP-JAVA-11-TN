@@ -43,7 +43,7 @@ class WebAuthorization {
 //              .antMatchers("/h2-console").hasAnyAuthority("ADMIN", "CLIENT") // machete pourpose
                 .antMatchers( "/web/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/login", "/api/logout", "/api/clients").permitAll()
-                .antMatchers("/**", "/clients/current/accounts").hasAnyAuthority("ADMIN", "CLIENT");
+                .antMatchers("/**", "/clients/current/accounts","/clients/current/cards").hasAnyAuthority("ADMIN", "CLIENT");
 
         http.formLogin()
                 .usernameParameter("email")

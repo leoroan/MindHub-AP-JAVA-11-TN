@@ -113,7 +113,7 @@ public class HomebankingApplication {
             clientLoanRepository.save(cl4);
 
             LocalDate from = LocalDate.now();
-            LocalDate thru = today.plusDays(730);
+            LocalDate thru = from.plusDays(730);
             Card goldCard = new Card(c1.getFirstName() + " " + c1.getLastName(), CardType.DEBIT, CardColor.GOLD,
                     "1234-5678-1190", 987, from, thru);
             Card titaniumCard = new Card(c1.getFirstName() + " " + c1.getLastName(), CardType.CREDIT,
