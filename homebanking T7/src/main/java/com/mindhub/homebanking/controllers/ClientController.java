@@ -59,7 +59,7 @@ public class ClientController {
     public ClientDTO getClient(Authentication authentication) {
         Client cli = clientRepository.findByEmail(authentication.getName());
         ClientDTO clientdto = new ClientDTO(cli);
-        return clientdto;
+        return clientdto; 
 
     }
 }
