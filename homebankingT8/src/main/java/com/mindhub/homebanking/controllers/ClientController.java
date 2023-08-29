@@ -1,7 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,5 +62,3 @@ public class ClientController {
         return new ClientDTO(cli);
     }
 }
-
-
