@@ -2,6 +2,8 @@ package com.mindhub.homebanking.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
@@ -37,6 +39,14 @@ public class AccountController {
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) {
         return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
+    }
+
+    @GetMapping("/clients/current/accounts")
+    public Set<AccountDTO> getAccount(Authentication authentication) {
+        Client currentClient = clientRepository.findByEmail(authentication.getName());
+       return currentClient.getAccounts().stream().map(account -> new AccountDTO(account))
+               .collect(Collectors.toSet());
+
     }
 
     public String accountNumberGenerator() {

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@NamedQuery(name = "account.findByNumber", query = "select c from Account c where c.number = ?1")
 public class Account {
 
     @Id
