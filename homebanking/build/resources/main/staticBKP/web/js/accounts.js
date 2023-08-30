@@ -1,4 +1,5 @@
 Vue.createApp({
+
     data() {
         return {
             clientInfo: {},
@@ -24,7 +25,7 @@ Vue.createApp({
         },
         signOut: function () {
             axios.post('/api/logout')
-                .then(response => window.location.href = "/web/index.html", console.log("deslogUEADO!"))
+                .then(response => window.location.href = "/web/index.html")
                 .catch(() => {
                     this.errorMsg = "Sign out failed"
                     this.errorToats.show();
