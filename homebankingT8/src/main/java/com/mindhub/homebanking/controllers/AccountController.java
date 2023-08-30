@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,28 +25,26 @@ import static java.util.stream.Collectors.toList;
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts() {
-        return accountRepository.findAll().stream()
-                .map(account -> new AccountDTO(account))
-                .collect(toList());
+        return accountService.getAccounts();
     }
 
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) {
-        return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
+        return accountService.getAccount(id);
     }
 
     @GetMapping("/clients/current/accounts")
     public Set<AccountDTO> getAccount(Authentication authentication) {
-        Client currentClient = clientRepository.findByEmail(authentication.getName());
-       return currentClient.getAccounts().stream().map(account -> new AccountDTO(account))
-               .collect(Collectors.toSet());
+        Client currentClient = clientService.findByEmail(authentication.getName());
+        return currentClient.getAccounts().stream().map(account -> new AccountDTO(account))
+                .collect(Collectors.toSet());
 
     }
 
@@ -57,16 +56,16 @@ public class AccountController {
         return prefix + accountNumberStr;
     }
 
-    public void accCreator(Client currentClient){
+    public void accCreator(Client currentClient) {
         LocalDate today = LocalDate.now();
         Account currentAccount = new Account(accountNumberGenerator(), today, 0);
         currentClient.addAccount(currentAccount);
-        accountRepository.save(currentAccount);
+        accountService.saveAccount(currentAccount);
     }
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createAccount(Authentication authentication) {
-        Client currentClient = clientRepository.findByEmail(authentication.getName());
+        Client currentClient = clientService.findByEmail(authentication.getName());
         if (currentClient.getAccounts().size() >= 3) {
             return new ResponseEntity<>("E403 FORBIDDEN", HttpStatus.FORBIDDEN);
         } else {

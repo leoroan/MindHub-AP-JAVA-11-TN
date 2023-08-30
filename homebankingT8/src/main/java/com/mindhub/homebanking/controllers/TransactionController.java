@@ -12,6 +12,9 @@ import com.mindhub.homebanking.repositories.TransactionRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,19 +34,17 @@ import static java.util.stream.Collectors.toList;
 public class TransactionController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @GetMapping("/transactions")
     public List<TransactionDTO> getTransactions() {
-        return transactionRepository.findAll().stream()
-                .map(transaction -> new TransactionDTO(transaction))
-                .collect(toList());
+        return transactionService.getTransactions();
     }
 
     public Account getCurrentAccount(String accountNumber, Client currentClient) {
@@ -56,7 +57,7 @@ public class TransactionController {
     }
 
     private boolean checkIfDestinationAccountExist(String destinationAccount) {
-        Account anAccount = accountRepository.findByNumber(destinationAccount);
+        Account anAccount = accountService.getAccount(destinationAccount);
         return anAccount != null;
     }
 
@@ -65,7 +66,7 @@ public class TransactionController {
     }
 
     private Account getDestinationAccount(String destinationAccount) {
-        return accountRepository.findByNumber(destinationAccount);
+        return accountService.getAccount(destinationAccount);
     }
 
     @Transactional
@@ -77,7 +78,7 @@ public class TransactionController {
             @RequestParam String description,
             Authentication authentication) {
 
-        Client currentClient = clientRepository.findByEmail(authentication.getName());
+        Client currentClient = clientService.findByEmail(authentication.getName());
 
         System.out.println("Transaction registration started.");
 
@@ -104,8 +105,8 @@ public class TransactionController {
         // then credit
         getDestinationAccount(toAccountNumber).addTransaction(creditTransaction);
         getDestinationAccount(toAccountNumber).setBalance(getDestinationAccount(toAccountNumber).getBalance() + amount);
-        transactionRepository.save(debitTransaction);
-        transactionRepository.save(creditTransaction);
+        transactionService.saveTransaction(debitTransaction);
+        transactionService.saveTransaction(creditTransaction);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

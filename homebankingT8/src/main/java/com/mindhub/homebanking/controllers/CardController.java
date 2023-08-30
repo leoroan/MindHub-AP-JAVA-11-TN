@@ -3,6 +3,8 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,9 @@ import java.util.Random;
 public class CardController {
 
     @Autowired
-    private CardRepository cardRepository;
+    private CardService cardService;
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     public static int cvvGenerator() {
         Random random = new Random();
@@ -49,7 +51,7 @@ public class CardController {
         Card currentCard = new Card(currentClient.getFirstName() + " " + currentClient.getLastName(), type, color,
                 cardNumberGenerator(), cvvGenerator(), from, thru);
         currentClient.addCard(currentCard);
-        cardRepository.save(currentCard);
+        cardService.saveCard(currentCard);
     }
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
@@ -57,7 +59,7 @@ public class CardController {
             @RequestParam CardType cardType,
             @RequestParam CardColor cardColor,
             Authentication authentication) {
-        Client currentClient = clientRepository.findByEmail(authentication.getName());
+        Client currentClient = clientService.findByEmail(authentication.getName());
         if (currentClient.getCards().size() > 2) {
             return new ResponseEntity<>("E403 FORBIDDEN", HttpStatus.FORBIDDEN);
         } else {
