@@ -61,7 +61,7 @@ public class TransactionController {
     }
 
     private boolean accountHasFunds(Client currentClient, String accountNumber, double amount) {
-        return getCurrentAccount(accountNumber, currentClient).getBalance() > amount;
+        return getCurrentAccount(accountNumber, currentClient).getBalance() >= amount;
     }
 
     private Account getDestinationAccount(String destinationAccount) {
@@ -81,10 +81,11 @@ public class TransactionController {
 
         System.out.println("Transaction registration started.");
 
-        if ( amount <= 0 || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty()) {
+        if (amount <= 0 || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
-        if (fromAccountNumber.equals(toAccountNumber) || getCurrentAccount(fromAccountNumber, currentClient) == null || !checkIfDestinationAccountExist(toAccountNumber)) {
+        if (fromAccountNumber.equals(toAccountNumber) || getCurrentAccount(fromAccountNumber, currentClient) == null
+                || !checkIfDestinationAccountExist(toAccountNumber)) {
             return new ResponseEntity<>("Transaction error", HttpStatus.FORBIDDEN);
         }
         if (!accountHasFunds(currentClient, fromAccountNumber, amount)) {
@@ -92,12 +93,17 @@ public class TransactionController {
         }
 
         LocalDateTime now = LocalDateTime.now();
-        Transaction debitTransaction = new Transaction(TransactionType.DEBIT, -amount, description + " " + fromAccountNumber, now);
-        Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount, description + " " + toAccountNumber, now);
-//        1st debit
+        Transaction debitTransaction = new Transaction(TransactionType.DEBIT, -amount,
+                description + " " + fromAccountNumber, now);
+        Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount,
+                description + " " + toAccountNumber, now);
+        // 1st debit
         getCurrentAccount(fromAccountNumber, currentClient).addTransaction(debitTransaction);
-//        then credit
+        getCurrentAccount(fromAccountNumber, currentClient)
+                .setBalance(getCurrentAccount(fromAccountNumber, currentClient).getBalance() - amount);
+        // then credit
         getDestinationAccount(toAccountNumber).addTransaction(creditTransaction);
+        getDestinationAccount(toAccountNumber).setBalance(getDestinationAccount(toAccountNumber).getBalance() + amount);
         transactionRepository.save(debitTransaction);
         transactionRepository.save(creditTransaction);
         return new ResponseEntity<>(HttpStatus.CREATED);
