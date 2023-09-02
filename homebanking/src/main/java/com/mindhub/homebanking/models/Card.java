@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@NamedQuery(name = "card.findByNumber", query = "select c from Card c where c.number = ?1")
 public class Card {
 
     @Id

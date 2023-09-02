@@ -40,10 +40,29 @@ class WebAuthorization {
          */
         http.authorizeRequests()
                 .antMatchers("/web/**").permitAll()
-                .antMatchers("/manager.html", "/rest/**", "/h2-console/**").hasAuthority("ADMIN") // be specific.
-//              .antMatchers("/h2-console").hasAnyAuthority("ADMIN", "CLIENT") // machete pourpose
-                .antMatchers(HttpMethod.POST, "/api/login", "/api/logout", "/api/clients").permitAll()
-                .antMatchers("/**", "/clients/current/accounts", "/clients/current/cards", "/api/transactions").hasAnyAuthority("ADMIN", "CLIENT");
+
+                .antMatchers("/manager.html",
+                        "/rest/**",
+                        "/accounts/{id}",
+                        "/h2-console/**").hasAuthority("ADMIN")
+
+                .antMatchers(HttpMethod.POST,
+                        "/api/login",
+                        "/api/logout",
+                        "/api/clients").permitAll()
+
+                .antMatchers(HttpMethod.POST,
+                        "/transactions",
+                        "/clients/current/accounts",
+                        "/clients/current/cards").hasAnyAuthority("CLIENT", "ADMIN")
+
+                .antMatchers(HttpMethod.GET,
+                        "/**",
+                        "/transactions",
+                        "/api/clients/current/accounts",
+                        "/api/clients/current/cards",
+                        "/api/transactions").hasAnyAuthority("ADMIN", "CLIENT");
+
 
         http.formLogin()
                 .usernameParameter("email")

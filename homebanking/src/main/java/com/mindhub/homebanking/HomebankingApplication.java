@@ -48,9 +48,9 @@ public class HomebankingApplication {
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 
-            Account a1 = new Account("VIN001", today, 5000);
-            Account a2 = new Account("VIN002", tomorrow, 7500);
-            Account a3 = new Account("VIN003", today, 999);
+            Account a1 = new Account("VIN-00000001", today, 5000);
+            Account a2 = new Account("VIN-00000002", tomorrow, 7500);
+            Account a3 = new Account("VIN-00000003", today, 999);
 
             c1.addAccount(a1);
             c2.addAccount(a2);
@@ -115,11 +115,11 @@ public class HomebankingApplication {
             LocalDate from = LocalDate.now();
             LocalDate thru = from.plusDays(730);
             Card goldCard = new Card(c1.getFirstName() + " " + c1.getLastName(), CardType.DEBIT, CardColor.GOLD,
-                    "1234-5678-1190", 987, from, thru);
+                    "3333-1212-5432-4443", 987, from, thru);
             Card titaniumCard = new Card(c1.getFirstName() + " " + c1.getLastName(), CardType.CREDIT,
-                    CardColor.TITANIUM, "1098-7654-3000", 652, from, thru);
+                    CardColor.TITANIUM, "4443-1212-5432-3333", 652, from, thru);
             Card silverCard = new Card(c2.getFirstName() + " " + c2.getLastName(), CardType.CREDIT, CardColor.SILVER,
-                    "1122-3344-5566", 258, from, thru);
+                    "5432-3333-4443-1212", 258, from, thru);
             c1.addCard(goldCard);
             c1.addCard(titaniumCard);
             c2.addCard(silverCard);

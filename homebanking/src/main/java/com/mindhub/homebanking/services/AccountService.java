@@ -13,10 +13,6 @@ public interface AccountService {
 
     Account getAccount(String number);
 
-
     void saveAccount(Account account);
-
-
-
 
 }
