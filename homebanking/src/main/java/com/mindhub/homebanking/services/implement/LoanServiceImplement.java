@@ -19,6 +19,11 @@ public class LoanServiceImplement implements LoanService {
     private LoanRepository loanRepository;
 
     @Override
+    public void saveLoan(Loan loan) {
+        loanRepository.save(loan);
+    }
+
+    @Override
     public Loan findByName(String name) {
         return loanRepository.findByName(name);
     }
