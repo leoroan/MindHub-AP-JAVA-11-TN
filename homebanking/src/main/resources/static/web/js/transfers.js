@@ -21,7 +21,6 @@ Vue.createApp({
                     this.clientAccounts = response.data;
                 })
                 .catch((error) => {
-                    console.log(error);
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
                 })
@@ -60,7 +59,6 @@ Vue.createApp({
                     this.okmodal.show();
                 })
                 .catch((error) => {
-                    console.log(error);
                     this.errorMsg = error.response.data;
                     this.errorToats.show();
                 })
@@ -82,7 +80,6 @@ Vue.createApp({
             axios.post('/api/logout')
                 .then(response => window.location.href = "/web/index.html")
                 .catch(() => {
-
                     this.errorMsg = "Sign out failed"
                     this.errorToats.show();
                 })
@@ -94,4 +91,4 @@ Vue.createApp({
         this.okmodal = new bootstrap.Modal(document.getElementById('okModal'));
         this.getData();
     }
-}).mount("#app");
+}).mount('#app')

@@ -80,4 +80,13 @@ public class Utils {
         currentClient.addCard(currentCard);
         cardService.saveCard(currentCard);
     }
+
+    public static Account getCurrentAccount(String accountNumber, Client currentClient) {
+        for (Account account : currentClient.getAccounts()) {
+            if (account.getNumber().equals(accountNumber)) {
+                return account;
+            }
+        }
+        return null;
+    }
 }

@@ -5,9 +5,6 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
 
-import static java.util.stream.Collectors.toList;
-
+import static com.mindhub.homebanking.utils.Utils.getCurrentAccount;
 @RestController
 @RequestMapping("/api")
 public class TransactionController {
@@ -47,22 +43,17 @@ public class TransactionController {
         return transactionService.getTransactions();
     }
 
-    public Account getCurrentAccount(String accountNumber, Client currentClient) {
-        for (Account account : currentClient.getAccounts()) {
-            if (account.getNumber().equals(accountNumber)) {
-                return account;
-            }
-        }
-        return null;
-    }
-
     private boolean checkIfDestinationAccountExist(String destinationAccount) {
         Account anAccount = accountService.getAccount(destinationAccount);
         return anAccount != null;
     }
 
     private boolean accountHasFunds(Client currentClient, String accountNumber, double amount) {
-        return getCurrentAccount(accountNumber, currentClient).getBalance() >= amount;
+        Account acc = getCurrentAccount(accountNumber, currentClient);
+        if (acc != null) {
+            return acc.getBalance() >= amount;
+        }
+        return false;
     }
 
     private Account getDestinationAccount(String destinationAccount) {
@@ -95,9 +86,9 @@ public class TransactionController {
 
         LocalDateTime now = LocalDateTime.now();
         Transaction debitTransaction = new Transaction(TransactionType.DEBIT, -amount,
-                description + " " + fromAccountNumber, now);
-        Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount,
                 description + " " + toAccountNumber, now);
+        Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount,
+                description + " " + fromAccountNumber, now);
         // 1st debit
         getCurrentAccount(fromAccountNumber, currentClient).addTransaction(debitTransaction);
         getCurrentAccount(fromAccountNumber, currentClient)

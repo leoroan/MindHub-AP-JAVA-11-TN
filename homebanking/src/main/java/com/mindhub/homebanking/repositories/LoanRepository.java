@@ -8,4 +8,7 @@ import com.mindhub.homebanking.models.Loan;
 @RepositoryRestResource
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
+    public Loan findByName(String name);
+
+    public Loan findById(long id);
 }
