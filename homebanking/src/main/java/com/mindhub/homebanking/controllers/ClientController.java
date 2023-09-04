@@ -2,7 +2,6 @@ package com.mindhub.homebanking.controllers;
 
 import java.util.List;
 
-import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Client;
 
-import static com.mindhub.homebanking.utils.Utils.accountCreator;
 import static com.mindhub.homebanking.utils.Utils.manageAccountCreation;
 
 @RestController

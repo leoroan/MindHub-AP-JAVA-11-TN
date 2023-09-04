@@ -92,7 +92,7 @@ public class HomebankingApplication {
             loanRepository.save(l3);
 
             ClientLoan cl1 = new ClientLoan(400000, 60);
-            c1.addLoan(cl1); // reparar esto segun lo comentado en ws. faltaria el add en ClientLoan
+            c1.addLoan(cl1);
             l1.addClient(cl1);
 
             ClientLoan cl2 = new ClientLoan(50000, 12);

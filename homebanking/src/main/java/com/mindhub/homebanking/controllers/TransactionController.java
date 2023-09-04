@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
 
+import static com.mindhub.homebanking.utils.Utils.getCurrentAccount;
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -47,22 +48,17 @@ public class TransactionController {
         return transactionService.getTransactions();
     }
 
-    public Account getCurrentAccount(String accountNumber, Client currentClient) {
-        for (Account account : currentClient.getAccounts()) {
-            if (account.getNumber().equals(accountNumber)) {
-                return account;
-            }
-        }
-        return null;
-    }
-
     private boolean checkIfDestinationAccountExist(String destinationAccount) {
         Account anAccount = accountService.getAccount(destinationAccount);
         return anAccount != null;
     }
 
     private boolean accountHasFunds(Client currentClient, String accountNumber, double amount) {
-        return getCurrentAccount(accountNumber, currentClient).getBalance() >= amount;
+        Account acc = getCurrentAccount(accountNumber, currentClient);
+        if (acc != null) {
+            return acc.getBalance() >= amount;
+        }
+        return false;
     }
 
     private Account getDestinationAccount(String destinationAccount) {
