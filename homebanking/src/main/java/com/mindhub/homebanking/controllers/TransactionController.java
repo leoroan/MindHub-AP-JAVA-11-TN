@@ -5,9 +5,6 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.transaction.Transactional;
 
 import static com.mindhub.homebanking.utils.Utils.getCurrentAccount;
-import static java.util.stream.Collectors.toList;
-
 @RestController
 @RequestMapping("/api")
 public class TransactionController {
