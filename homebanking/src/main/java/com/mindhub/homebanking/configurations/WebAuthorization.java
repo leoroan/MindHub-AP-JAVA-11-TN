@@ -48,8 +48,7 @@ class WebAuthorization {
 
                 .antMatchers(HttpMethod.POST,
                         "/api/login",
-                        "/api/logout",
-                        "/api/clients").permitAll()
+                        "/api/logout").permitAll()
 
                 .antMatchers(HttpMethod.POST,
                         "/transactions",
