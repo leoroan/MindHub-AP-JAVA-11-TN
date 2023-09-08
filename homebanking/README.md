@@ -1,15 +1,12 @@
-# HOMEBANKING-TASK8 -- MindHub-AP-JAVA-11-TN
+# HOMEBANKING-TASK11 -- MindHub-AP-JAVA-11-TN
 
-Repo con el TP 8 del BootCamp de MindHub-AP JAVA
+Repo con el TP 11 del BootCamp de MindHub-AP JAVA
 
-## SEGUNDA PARTE DEL CURSO
-
-la historia de usuario:
-User Story 10: como un cliente con sesión iniciada, poder realizar una transacción
-para transferir dinero de una cuenta a otra.
-Acceptance test:
-Con el cliente Melba Morel con sesión iniciada
-Entonces ir a la página transfers.html, seleccionar la cuenta de origen, indicar la
-cuenta de destino, monto y pulsar el botón transfer, aceptar la notificación de
-seguridad preguntando si se quiere transferir el dinero, una vez completada la
-transferencia se debe mostrar un mensaje indicando que fue exitosa.
+Solo nos queda dar unos últimos toques a la aplicación ¡para que el cliente quede super 
+contento!, agregaremos:
+● Poder solicitar a los servicios el formato de respuesta XML
+● Mejorar un poco el código de los servicios con nuevas anotaciones para indicar 
+el tipo de petición.
+● Implementar test automatizados para los servicios
+● Revisar el estilo por si queremos agregar algún detalle estético para que se vea 
+mejor la aplicación.
