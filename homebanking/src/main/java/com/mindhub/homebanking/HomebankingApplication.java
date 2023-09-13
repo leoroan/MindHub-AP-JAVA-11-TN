@@ -25,8 +25,8 @@ public class HomebankingApplication {
      * el objeto PasswordEncoder
      * que se crea con el @Bean en la clase WebAuthentication
      */
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository,
@@ -36,6 +36,7 @@ public class HomebankingApplication {
             ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 
         return (args) -> {
+
 
 //            Client c1 = new Client("Melba", "Morel", "mmorel@email.com", passwordEncoder.encode("123456"));
 //            Client c2 = new Client("Dama", "Bocca", "dbocca@email.com", passwordEncoder.encode("654321"));

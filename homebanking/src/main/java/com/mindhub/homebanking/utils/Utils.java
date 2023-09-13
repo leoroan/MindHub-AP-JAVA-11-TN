@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import java.util.Random;
 
-public class Utils {
+public final class Utils {
 
     public static boolean validateAccountNumbers(String newNumber, AccountService accountService) {
         return (accountService.getAccount(newNumber) != null);
