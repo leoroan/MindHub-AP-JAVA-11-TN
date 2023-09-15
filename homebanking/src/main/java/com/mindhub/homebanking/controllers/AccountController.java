@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
@@ -37,9 +38,31 @@ public class AccountController {
         return accountService.getAccount(id);
     }
 
+    private ClientService getClientService() {
+        return clientService;
+    }
+
+    @PostMapping("/accounts/delete") //Patch
+    public ResponseEntity<Object> deleteAccount(
+            @RequestParam String accountNumber,
+            Authentication authentication) {
+
+        Account a = accountService.getAccount(accountNumber);
+        Client currentClient = getClientService().findByEmail(authentication.getName());
+
+        if (!currentClient.getAccounts().contains(a)) {
+            return new ResponseEntity<>("E403 FORBIDDEN - ACCOUNT OWNER MISMATCH", HttpStatus.FORBIDDEN);
+        }
+        a.setActive(false);
+        a.getTransactions().stream().forEach(transaction -> transaction.setActive(false));
+        accountService.saveAccount(a);
+        return new ResponseEntity<>("201 ERASED", HttpStatus.CREATED);
+    }
+
+
     @GetMapping("/clients/current/accounts")
     public Set<AccountDTO> getAccount(Authentication authentication) {
-        Client currentClient = clientService.findByEmail(authentication.getName());
+        Client currentClient = getClientService().findByEmail(authentication.getName());
         return currentClient.getAccounts().stream().map(account -> new AccountDTO(account))
                 .collect(Collectors.toSet());
     }
@@ -47,8 +70,8 @@ public class AccountController {
     @PostMapping("/clients/current/accounts")
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         try {
-            Client currentClient = clientService.findByEmail(authentication.getName());
-            if (currentClient.getAccounts().size() >= 3) {
+            Client currentClient = getClientService().findByEmail(authentication.getName());
+            if (currentClient.getAccounts().stream().filter(Account::isActive).count() >= 3) {
                 return new ResponseEntity<>("E403 Forbidden: You have reached the limit of 3 accounts per client.", HttpStatus.FORBIDDEN);
             }
             return manageAccountCreation(accountService, currentClient);

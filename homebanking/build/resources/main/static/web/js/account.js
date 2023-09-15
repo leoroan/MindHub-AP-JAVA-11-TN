@@ -14,7 +14,7 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.accountInfo = response.data;
-                    this.accountInfo.transactions.sort((a, b) => (b.id - a.id))
+                    this.accountInfo.transactions.filter(tr => tr.active).sort((a, b) => (b.id - a.id))
                 })
                 .catch((error) => {
                     // handle error
@@ -30,6 +30,17 @@ Vue.createApp({
                 .then(response => window.location.href = "/web/index.html")
                 .catch(() => {
                     this.errorMsg = "Sign out failed"
+                    this.errorToats.show();
+                })
+        },
+        eraseAccount: function (accNum) {
+            axios.post(`/api/accounts/delete/?accountNumber=${accNum}`) //patch
+                .then(response => {
+                    // console.log("Account & transactions been deleted successfully "+accNum);
+                    window.location.href = '/web/accounts.html';
+                })
+                .catch(() => {
+                    this.errorMsg = + accNum + " Delete Account & Transactions failed "
                     this.errorToats.show();
                 })
         },

@@ -20,6 +20,21 @@ public class CardController {
     @Autowired
     private ClientService clientService;
 
+    @PostMapping ("/cards/delete")
+    public ResponseEntity<Object> deleteCard(
+            @RequestParam String cardNumber,
+            Authentication authentication) {
+        Card c = cardService.getCard(cardNumber);
+        Client currentClient = clientService.findByEmail(authentication.getName());
+        if (!currentClient.getCards().contains(c)) {
+            return new ResponseEntity<>("E403 FORBIDDEN - CARD OWNER MISMATCH", HttpStatus.FORBIDDEN);
+        }
+        c.setActive(false);
+        cardService.saveCard(c);
+        return new ResponseEntity<>("201 ERASED", HttpStatus.CREATED);
+    }
+
+
     @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createCard(
             @RequestParam CardType cardType,
@@ -31,7 +46,8 @@ public class CardController {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-        if (currentClient.getCards().size() > 2) {
+        // controla que el cliente NO tenga mas de 3 tarjetas activas al momento de querer pedir una nueva.
+        if (currentClient.getCards().stream().filter(Card::isActive).count() > 2) {
             return new ResponseEntity<>("E403 FORBIDDEN", HttpStatus.FORBIDDEN);
 
         } else {

@@ -12,6 +12,7 @@ public class AccountDTO {
     private LocalDate creationDate;
     private double balance;
     private Set<Transaction> transactions;
+    private Boolean isActive;
 
     public AccountDTO(Account account) {
         this.id = account.getId();
@@ -19,6 +20,7 @@ public class AccountDTO {
         this.creationDate = account.getCreationDate();
         this.balance = account.getBalance();
         this.transactions = account.getTransactions();
+        this.isActive = account.isActive();
     }
 
     public long getId() {
@@ -39,5 +41,9 @@ public class AccountDTO {
 
     public Set<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public Boolean isActive() {
+        return this.isActive;
     }
 }

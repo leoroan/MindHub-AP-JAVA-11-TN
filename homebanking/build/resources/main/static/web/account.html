@@ -88,6 +88,9 @@
                     <div class="row mt-3">
                         <div class="col">
                             <h2>Transactions</h2>
+                            <ul class="nav nav-pills d-flex justify-content-end mb-auto">
+                                <button class="btn btn-danger img-fluid " v-on:click="eraseAccount(accountInfo.number)">Delete this account</button>
+                            </ul>
                             <table class="table">
                                 <thead>
                                     <tr>

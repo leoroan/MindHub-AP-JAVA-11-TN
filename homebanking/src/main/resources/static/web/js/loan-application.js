@@ -19,7 +19,7 @@ Vue.createApp({
                 .then((response) => {
                     //get loan types ifo
                     this.loanTypes = response[0].data;
-                    this.clientAccounts = response[1].data;
+                    this.clientAccounts = response[1].data.filter(acc => acc.active);
                 })
                 .catch((error) => {
                     this.errorMsg = "Error getting data";

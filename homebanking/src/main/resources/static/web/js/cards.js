@@ -5,7 +5,7 @@ Vue.createApp({
             creditCards: [],
             debitCards: [],
             errorToats: null,
-            errorMsg: null,
+            errorMsg: null
         }
     },
     methods: {
@@ -14,8 +14,8 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
-                    this.creditCards = this.clientInfo.cards.filter(card => card.type == "CREDIT");
-                    this.debitCards = this.clientInfo.cards.filter(card => card.type == "DEBIT");
+                    this.creditCards = this.clientInfo.cards.filter(card => card.type == "CREDIT" && card.active);
+                    this.debitCards = this.clientInfo.cards.filter(card => card.type == "DEBIT" && card.active);
                 })
                 .catch((error) => {
                     this.errorMsg = "Error getting data";
@@ -33,6 +33,18 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
+        eraseCard: function (num) {
+            axios.post(`/api/cards/delete/?cardNumber=${num}`)
+                .then(response => {
+                    // console.log("Card deleted successfully "+num);
+                    this.getData();
+                })
+                .catch(() => {
+                    this.errorMsg = "Delete card failed " + num
+                    this.errorToats.show();
+                })
+        },
+
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

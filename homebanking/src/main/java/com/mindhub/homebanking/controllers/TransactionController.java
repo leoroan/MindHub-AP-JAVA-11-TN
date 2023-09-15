@@ -86,9 +86,9 @@ public class TransactionController {
 
         LocalDateTime now = LocalDateTime.now();
         Transaction debitTransaction = new Transaction(TransactionType.DEBIT, -amount,
-                description + " " + toAccountNumber, now);
+                description + " " + toAccountNumber, now, true);
         Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount,
-                description + " " + fromAccountNumber, now);
+                description + " " + fromAccountNumber, now, true);
         // 1st debit
         getCurrentAccount(fromAccountNumber, currentClient).addTransaction(debitTransaction);
         getCurrentAccount(fromAccountNumber, currentClient)

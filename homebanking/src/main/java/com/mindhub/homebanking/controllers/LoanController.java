@@ -131,7 +131,7 @@ public class LoanController {
             Loan theLoan = loanService.findById(loanApplicationDTO.getLoanId());
             theLoan.addClient(clientLoan);
 
-            Transaction transaction = new Transaction(TransactionType.CREDIT, 9999, loanApplicationDTO.getLoanId() + " loan approved", LocalDateTime.now());
+            Transaction transaction = new Transaction(TransactionType.CREDIT, 9999, loanApplicationDTO.getLoanId() + " loan approved", LocalDateTime.now(), true);
 
             Account currentAccount = getCurrentAccount(loanApplicationDTO.getToAccountNumber(), currentClient);
             currentAccount.addTransaction(transaction);

@@ -29,7 +29,7 @@ public final class Utils {
     public static Account accountCreator(AccountService accountService) {
         LocalDate today = LocalDate.now();
         try {
-            return new Account(accountNumberGenerator(accountService), today, 0);
+            return new Account(accountNumberGenerator(accountService), today, 0, true);
         } catch (Exception e) {
             System.err.println("An exception occurred during account-number generation, please contact dev-support: " + e.getMessage());
             return null;
@@ -76,7 +76,7 @@ public final class Utils {
         LocalDate from = LocalDate.now();
         LocalDate thru = from.plusDays(1825);
         Card currentCard = new Card(currentClient.getFirstName() + " " + currentClient.getLastName(), type, color,
-                cardNumberGenerator(cardService), cvvGenerator(), from, thru);
+                cardNumberGenerator(cardService), cvvGenerator(), from, thru, true);
         currentClient.addCard(currentCard);
         cardService.saveCard(currentCard);
     }

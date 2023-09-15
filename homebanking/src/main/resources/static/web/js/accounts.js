@@ -12,6 +12,7 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
+                    this.clientAccounts = this.clientInfo.accounts.filter(acc => acc.active);
                 })
                 .catch((error) => {
                     // handle error
