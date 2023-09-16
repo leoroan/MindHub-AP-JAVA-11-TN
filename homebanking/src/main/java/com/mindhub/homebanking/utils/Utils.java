@@ -26,18 +26,18 @@ public final class Utils {
         return prefix + accountNumberStr;
     }
 
-    public static Account accountCreator(AccountService accountService) {
+    public static Account accountCreator(AccountService accountService, AccountType type) {
         LocalDate today = LocalDate.now();
         try {
-            return new Account(accountNumberGenerator(accountService), today, 0, true);
+            return new Account(accountNumberGenerator(accountService), today, 0, true, type);
         } catch (Exception e) {
             System.err.println("An exception occurred during account-number generation, please contact dev-support: " + e.getMessage());
             return null;
         }
     }
 
-    public static ResponseEntity<Object> manageAccountCreation(AccountService accountService, Client currentClient) {
-        Account createdAccount = accountCreator(accountService);
+    public static ResponseEntity<Object> manageAccountCreation(AccountService accountService, Client currentClient, AccountType type) {
+        Account createdAccount = accountCreator(accountService, type);
         if (createdAccount != null) {
             currentClient.addAccount(createdAccount);
             accountService.saveAccount(createdAccount);

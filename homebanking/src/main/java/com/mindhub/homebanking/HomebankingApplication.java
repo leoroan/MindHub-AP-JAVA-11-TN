@@ -49,15 +49,18 @@ public class HomebankingApplication {
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 
-            Account a1 = new Account("VIN-00000001", today, 5000, true);
-            Account a2 = new Account("VIN-00000002", tomorrow, 7500,true);
-            Account a3 = new Account("VIN-00000003", today, 999,true);
+            Account a1 = new Account("VIN-00000001", today, 5000, true, AccountType.CHECKING_ACCOUNT);
+            Account a1b = new Account("VIN-00000012", today, 10000, true, AccountType.SAVINGS_ACCOUNT);
+            Account a2 = new Account("VIN-00000002", tomorrow, 7500,true, AccountType.CHECKING_ACCOUNT);
+            Account a3 = new Account("VIN-00000003", today, 999,true, AccountType.SAVINGS_ACCOUNT);
 
             c1.addAccount(a1);
+            c1.addAccount(a1b);
             c2.addAccount(a2);
             admin.addAccount(a3);
 
             accountRepository.save(a1);
+            accountRepository.save(a1b);
             accountRepository.save(a2);
             accountRepository.save(a3);
 

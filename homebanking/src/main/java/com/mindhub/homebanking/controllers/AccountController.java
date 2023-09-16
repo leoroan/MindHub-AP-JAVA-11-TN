@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
@@ -50,7 +51,7 @@ public class AccountController {
         Account a = accountService.getAccount(accountNumber);
         Client currentClient = getClientService().findByEmail(authentication.getName());
 
-        if (!currentClient.getAccounts().contains(a)) {
+        if (!currentClient.getAccounts().contains(a) || a.getBalance() > 0 || currentClient.getAccounts().stream().filter(Account::isActive).count() == 1 ) {
             return new ResponseEntity<>("E403 FORBIDDEN - ACCOUNT OWNER MISMATCH", HttpStatus.FORBIDDEN);
         }
         a.setActive(false);
@@ -68,13 +69,13 @@ public class AccountController {
     }
 
     @PostMapping("/clients/current/accounts")
-    public ResponseEntity<Object> createAccount(Authentication authentication) {
+    public ResponseEntity<Object> createAccount(@RequestParam AccountType accountType, Authentication authentication) {
         try {
             Client currentClient = getClientService().findByEmail(authentication.getName());
             if (currentClient.getAccounts().stream().filter(Account::isActive).count() >= 3) {
                 return new ResponseEntity<>("E403 Forbidden: You have reached the limit of 3 accounts per client.", HttpStatus.FORBIDDEN);
             }
-            return manageAccountCreation(accountService, currentClient);
+            return manageAccountCreation(accountService, currentClient, accountType);
         } catch (Exception e) {
             System.err.println("Error: An exception occurred during account creation, please contact support: " + e.getMessage());
             return new ResponseEntity<>("E403 FORBIDDEN: An exception occurred during account creation.", HttpStatus.FORBIDDEN);

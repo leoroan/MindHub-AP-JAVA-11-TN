@@ -73,7 +73,7 @@
                     <div class="col-10">
                         <h2 class="display-6 subtitle">Loan application</h2>
 
-                        <div v-if="clientAccounts.length < 3">
+                        <div v-if="clientAccounts.length <= 3">
                             <form class="mt-4">
                                 <div class="row">
                                     <div class="col-md-9">
@@ -139,7 +139,7 @@
                                         <div class="modal-body">
                                             Loans applications cannot be undone, do you want to continue?
                                         </div>
-                                        <div class="modal-footer" v-if="clientAccounts.length < 3">
+                                        <div class="modal-footer" v-if="clientAccounts.length <= 3">
                                             <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">
                                                 Cancel
                                             </button>

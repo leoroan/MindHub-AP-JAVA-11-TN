@@ -31,17 +31,19 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
-        create: function () {
-            axios.post('/api/clients/current/accounts')
-                .then(response => window.location.reload())
-                .catch((error) => {
-                    this.errorMsg = error.response.data;
-                    this.errorToats.show();
-                })
-        }
+        // create: function () {
+        //     axios.post(`/api/clients/current/accounts/?cardType=${type}`)
+        //         .then(response => window.location.reload())
+        //         .catch((error) => {
+        //             this.errorMsg = error.response.data;
+        //             this.errorToats.show();
+        //         })
+        // }
     },
+
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
         this.getData();
     }
 }).mount('#app')
+

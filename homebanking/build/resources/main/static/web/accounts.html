@@ -82,9 +82,11 @@
                 <div class="row mt-3">
                     <div class="col">
                         <h2 class="display-6 subtitle">Accounts</h2>
-                        <button v-if="clientAccounts != null && clientAccounts.length < 3"
-                                v-on:click="create" id="create" class="btn btn-sm btn-success">Create
-                        </button>
+<!--                        <button v-if="clientAccounts != null && clientAccounts.length < 3" -->
+<!--                                v-on:click="create" id="create" class="btn btn-sm btn-success">Create-->
+<!--                        </button>-->
+                        <a v-if="clientAccounts != null && clientAccounts.length < 3" href="create-accounts.html"
+                           id="create" class="btn btn-sm btn-success">Create</a>
                     </div>
                 </div>
                 <div class="row mx-2">
@@ -93,6 +95,9 @@
                             <a class="account-link" v-bind:href="'/web/account.html?id='+account.id">
                                 <div class="card border-0 account">
                                     <div class="card-body">
+
+<!--                                        <h6 class="card-title">{{ v-if="account.type == "SAVINGS_ACCOUNT" ? "C.AHORRO" : "CC"" }}</h6>-->
+                                        <h6 class="card-title">{{ account.type == "SAVINGS_ACCOUNT" ? "CAJA DE AHORRO" : "CUENTA CORRIENTE" }}</h6>
                                         <h5 class="card-title">{{ account.number }}</h5>
                                         <p class="card-text"> {{ formatDate(account.creationDate) }}</p>
                                         <p class="text-center lead account-balance"> ${{ account.balance }} </p>

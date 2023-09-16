@@ -4,6 +4,7 @@ import com.mindhub.homebanking.dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.ClientLoanRepository;
+import com.mindhub.homebanking.repositories.TransactionRepository;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.LoanService;
@@ -36,6 +37,8 @@ public class LoanController {
 
     @Autowired
     ClientLoanRepository clientLoanRepository;
+    @Autowired
+    TransactionRepository transactionRepository;
 
     @GetMapping("/loans")
     public List<LoanDTO> getLoans() {
@@ -131,9 +134,11 @@ public class LoanController {
             Loan theLoan = loanService.findById(loanApplicationDTO.getLoanId());
             theLoan.addClient(clientLoan);
 
-            Transaction transaction = new Transaction(TransactionType.CREDIT, 9999, loanApplicationDTO.getLoanId() + " loan approved", LocalDateTime.now(), true);
+            Transaction transaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), loanApplicationDTO.getLoanId() + " loan approved", LocalDateTime.now(), true);
 
             Account currentAccount = getCurrentAccount(loanApplicationDTO.getToAccountNumber(), currentClient);
+
+            assert currentAccount != null;
             currentAccount.addTransaction(transaction);
             destinationAccount.addTransaction(transaction);
 
@@ -141,8 +146,10 @@ public class LoanController {
             destinationAccount.setBalance(newBalance);
 
             clientLoanRepository.save(clientLoan);
+            transactionRepository.save(transaction);
 
-            return manageAccountCreation(accountService, currentClient);
+//            return manageAccountCreation(accountService, currentClient,AccountType.CHECKING_ACCOUNT);
+            return new ResponseEntity<>("E201 CREATED", HttpStatus.CREATED);
         } catch (Exception e) {
             System.err.println("Error: An exception occurred during account creation, please contact support: " + e.getMessage());
             return new ResponseEntity<>("E403 FORBIDDEN: An exception occurred during account creation.", HttpStatus.FORBIDDEN);

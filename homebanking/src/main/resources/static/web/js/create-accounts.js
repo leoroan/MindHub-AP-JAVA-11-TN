@@ -3,8 +3,7 @@ Vue.createApp({
         return {
             errorToats: null,
             errorMsg: null,
-            cardType: "none",
-            cardColor: "none",
+            accountType: "none",
         }
     },
     methods: {
@@ -21,8 +20,8 @@ Vue.createApp({
         },
         create: function (event) {
             event.preventDefault();
-            if (this.cardType == "none" || this.cardColor == "none") {
-                this.errorMsg = "You must select a card type and color";
+            if (this.accountType === "none") {
+                this.errorMsg = "You must select an account type";
                 this.errorToats.show();
             } else {
                 let config = {
@@ -30,8 +29,8 @@ Vue.createApp({
                         'content-type': 'application/x-www-form-urlencoded'
                     }
                 }
-                axios.post(`/api/clients/current/cards?cardType=${this.cardType}&cardColor=${this.cardColor}`, config)
-                    .then(response => window.location.href = "/web/cards.html")
+                axios.post(`/api/clients/current/accounts/?accountType=${this.accountType}`, config)
+                    .then(response => window.location.href = "/web/accounts.html")
                     .catch((error) => {
                         this.errorMsg = error.response.data;
                         this.errorToats.show();

@@ -2,6 +2,7 @@ package com.mindhub.homebanking.controllers;
 
 import java.util.List;
 
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,10 @@ public class ClientController {
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam String email,
-            @RequestParam String password) {
+            @RequestParam String password,
+            @RequestParam AccountType accountType) {
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || accountType == null) {
             return new ResponseEntity<>("E403 Missing data", HttpStatus.FORBIDDEN);
         }
 
@@ -58,7 +60,7 @@ public class ClientController {
 
         Client client = new Client(firstName.toUpperCase(), lastName.toUpperCase(), email, passwordEncoder.encode(password));
         clientService.saveClient(client);
-        return manageAccountCreation(accountService, client);
+        return manageAccountCreation(accountService, client, accountType);
     }
 
     @GetMapping("/clients/current")

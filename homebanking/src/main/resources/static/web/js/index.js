@@ -5,6 +5,7 @@ Vue.createApp({
             password: "",
             firstName: "",
             lastName: "",
+            accountType: "",
             errorToats: null,
             errorMsg: "",
             showSignUp: false,
@@ -27,21 +28,30 @@ Vue.createApp({
         },
         signUp: function (event) {
             event.preventDefault();
-            let config = {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
+            if (this.accountType === "none") {
+                this.errorMsg = "You must select an account type";
+                this.errorToats.show();
+            } else {
+                let config = {
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    }
                 }
+                axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}&accountType=${this.accountType}`, config)
+                    .then(() => {
+                        this.signIn(event)
+                    })
+                    .catch(() => {
+                        this.errorMsg = "Sign up failed, check the information"
+                        this.errorToats.show();
+                    })
             }
-            axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`, config)
-                .then(() => { this.signIn(event) })
-                .catch(() => {
-                    this.errorMsg = "Sign up failed, check the information"
-                    this.errorToats.show();
-                })
-        },
+        }
+        ,
         showSignUpToogle: function () {
             this.showSignUp = !this.showSignUp;
-        },
+        }
+        ,
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
         }
