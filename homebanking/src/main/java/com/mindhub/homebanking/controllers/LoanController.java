@@ -41,7 +41,11 @@ public class LoanController {
     TransactionRepository transactionRepository;
 
     @GetMapping("/loans")
-    public List<LoanDTO> getLoans() {
+    public List<LoanDTO> getLoans(Authentication authentication) {
+        Client currentClient = clientService.findByEmail(authentication.getName());
+        if (currentClient.getFirstName().equals("ADMIN")) {
+            return loanService.getLoansSpecial();
+        }
         return loanService.getLoans();
     }
 

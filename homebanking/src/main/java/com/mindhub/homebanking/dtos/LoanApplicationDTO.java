@@ -6,6 +6,7 @@ public class LoanApplicationDTO {
     private double amount;
     private Integer payments;
     private String toAccountNumber;
+    private Boolean special;
 
     public long getLoanId() {
         return loanId;
@@ -21,5 +22,9 @@ public class LoanApplicationDTO {
 
     public String getToAccountNumber() {
         return toAccountNumber;
+    }
+
+    public Boolean getSpecial() {
+        return special;
     }
 }

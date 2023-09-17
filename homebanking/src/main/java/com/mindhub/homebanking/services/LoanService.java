@@ -14,4 +14,7 @@ public interface LoanService {
     Loan findById(Long id);
 
     List<LoanDTO> getLoans();
+    
+    List<LoanDTO> getLoansSpecial();
+
 }

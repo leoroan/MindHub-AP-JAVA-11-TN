@@ -51,7 +51,7 @@ public class AccountController {
         Account a = accountService.getAccount(accountNumber);
         Client currentClient = getClientService().findByEmail(authentication.getName());
 
-        if (!currentClient.getAccounts().contains(a) || a.getBalance() > 0 || currentClient.getAccounts().stream().filter(Account::isActive).count() == 1 ) {
+        if (!currentClient.getAccounts().contains(a) || a.getBalance() > 0 || currentClient.getAccounts().stream().filter(Account::isActive).count() == 1) {
             return new ResponseEntity<>("E403 FORBIDDEN - ACCOUNT OWNER MISMATCH", HttpStatus.FORBIDDEN);
         }
         a.setActive(false);

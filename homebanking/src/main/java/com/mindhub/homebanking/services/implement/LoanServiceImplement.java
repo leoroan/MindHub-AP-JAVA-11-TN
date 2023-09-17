@@ -34,7 +34,13 @@ public class LoanServiceImplement implements LoanService {
     @Override
     public List<LoanDTO> getLoans() {
         return loanRepository.findAll().stream()
-                .map(loan -> new LoanDTO(loan))
+                .map(loan -> new LoanDTO(loan)).filter(loanDTO -> !loanDTO.getSpecial())
+                .collect(toList());
+    }
+    @Override
+    public List<LoanDTO> getLoansSpecial() {
+        return loanRepository.findAll().stream()
+                .map(loan -> new LoanDTO(loan)).filter(loanDTO -> loanDTO.getSpecial())
                 .collect(toList());
     }
 }

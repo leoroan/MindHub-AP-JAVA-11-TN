@@ -61,6 +61,7 @@ class WebAuthorization {
                         "/api/clients/current/accounts",
                         "/api/clients/current/cards",
                         "/api/clients/current/Loans",
+                        "/clients/current/auth",
                         "/api/transactions").hasAnyAuthority("ADMIN", "CLIENT");
 
 

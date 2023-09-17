@@ -87,13 +87,16 @@ public class HomebankingApplication {
             transactionRepository.save(t3);
             transactionRepository.save(t4);
 
-            Loan l1 = new Loan("Hipotecario", 500000.00, List.of(12, 24, 36, 48, 60));
-            Loan l2 = new Loan("Personal", 100000.00, List.of(6, 12, 24));
-            Loan l3 = new Loan("Automotriz", 300000.00, List.of(6, 12, 24, 36));
+            Loan l1 = new Loan("Hipotecario", 500000.00, List.of(12, 24, 36, 48, 60), false);
+            Loan l2 = new Loan("Personal", 100000.00, List.of(6, 12, 24), false);
+            Loan l3 = new Loan("Automotriz", 300000.00, List.of(6, 12, 24, 36),false);
+            Loan l4 = new Loan("Personal-ADMIN", 200000.00, List.of(6, 12), true);
+
 
             loanRepository.save(l1);
             loanRepository.save(l2);
             loanRepository.save(l3);
+            loanRepository.save(l4);
 
             ClientLoan cl1 = new ClientLoan(400000, 60);
             c1.addLoan(cl1);
