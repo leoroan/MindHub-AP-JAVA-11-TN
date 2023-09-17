@@ -45,7 +45,10 @@ public class TransactionController {
 
     private boolean checkIfDestinationAccountExist(String destinationAccount) {
         Account anAccount = accountService.getAccount(destinationAccount);
-        return anAccount != null;
+        if (anAccount.isActive()) {
+            return anAccount != null;
+        }
+        return false;
     }
 
     private boolean accountHasFunds(Client currentClient, String accountNumber, double amount) {
